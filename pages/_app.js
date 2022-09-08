@@ -1,5 +1,5 @@
 // State Management
-import { RecoilRoot } from 'recoil'
+import { wrapper } from '@/store/config'
 
 // Translations
 import { I18NProvider } from '@/contexts/i18n'
@@ -12,12 +12,10 @@ function MyApp ({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
-    <RecoilRoot>
-      <I18NProvider>
-        {getLayout(<Component {...pageProps} />)}
-      </I18NProvider>
-    </RecoilRoot>
+    <I18NProvider>
+      {getLayout(<Component {...pageProps} />)}
+    </I18NProvider>
   )
 }
 
-export default MyApp
+export default wrapper.withRedux(MyApp)

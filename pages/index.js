@@ -4,8 +4,19 @@ import Head from 'next/head'
 // Translations
 import { useI18N } from '@/contexts/i18n'
 
+// State Management
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCounter, decrementCounter, incrementCounter, incrementByValue } from '@/store/counter/slice'
+
 export default function Home () {
   const { t } = useI18N()
+
+  const count = useSelector(selectCounter)
+  const dispatch = useDispatch()
+
+  const handleClickIncrement = () => dispatch(incrementCounter())
+  const handleClickDecrement = () => dispatch(decrementCounter())
+  const handleClickRandom = () => dispatch(incrementByValue(Math.floor(Math.random() * 10 + 1)))
 
   return (
     <div>
@@ -18,6 +29,14 @@ export default function Home () {
       <h1>
         {t('WELCOME_TO', 'NextJS + TailwindCSS (TDD)')}
       </h1>
+      <div>
+        <ul>
+          <li><button onClick={handleClickIncrement}>Increment</button></li>
+          <li><button onClick={handleClickDecrement}>Decrement</button></li>
+          <li><button onClick={handleClickRandom}>Increment by random value</button></li>
+        </ul>
+        <span>Count is: {count}</span>
+      </div>
     </div>
   )
 }
